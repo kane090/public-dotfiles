@@ -1,0 +1,153 @@
+#
+# wm independent hotkeys
+#
+
+# terminal emulator
+super + Return
+	alacritty
+
+# program launcher
+super + r
+	rofi -show drun
+
+# make sxhkd reload its configuration files:
+super + Escape
+	pkill -USR1 -x sxhkd
+
+# web browser
+super + w
+	brave
+
+# file manager
+super + n
+	thunar
+
+# discord and spotify
+super + shift + bracket{left,right}
+	{discord,spotify}
+
+# email
+super + e
+	mailspring
+
+# lock
+super + x
+	betterlockscreen -l dimblur --off 15
+
+# powermenu
+super + shift + p
+	$HOME/.config/rofi/powermenu.sh
+
+# volume control
+XF86AudioLowerVolume
+    pactl set-sink-volume @DEFAULT_SINK@ -5%
+XF86AudioRaiseVolume
+    pactl set-sink-volume @DEFAULT_SINK@ +5%
+XF86AudioMute
+    pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+# play/pause, next, previous, and stop
+XF86AudioPlay
+    playerctl play-pause
+XF86AudioNext
+    playerctl next
+XF86AudioPrev
+    playerctl previous
+XF86AudioStop
+    playerctl stop
+
+# calculator
+XF86Calculator
+    gnome-calculator
+
+# screenshot to clipboard
+super + shift + s
+    escrotum -s --clipboard
+
+# screenshot to file
+Print
+    escrotum -s ~/OneDrive/Pictures/'%Y-%m-%d-%H_%M_%S.png'
+
+# bluetooth manager
+super + t
+    blueman-manager
+
+#
+# bspwm hotkeys
+#
+
+# quit/restart bspwm
+super + alt + {q,r}
+	bspc {quit,wm -r}
+
+# close window
+super + q
+    bspc node -c
+
+# kill window
+super + shift + q
+    bspc node -k
+
+# focus the node in the given direction
+super + {h,j,k,l}
+	bspc node -f {west,south,north,east}
+
+# swap the node in the given direction
+super + shift + {h,j,k,l}
+	bspc node -s {west,south,north,east}
+
+# focus the given desktop
+super + {1-9,0}
+    bspc desktop -f '^{1-9,10}'
+
+# focus the prev/next desktop
+super + bracket{left,right}
+    bspc desktop -f {prev,next}
+
+# send node to the given desktop
+super + shift + {1-9,0}
+    bspc node -d '^{1-9,10}'
+
+# expand a window by moving one of its side outward
+super + alt + {h,j,k,l}
+	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# contract a window by moving one of its side inward
+super + alt + shift + {h,j,k,l}
+	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+# Balance nodes
+super + b
+    bspc node @/ -B
+
+# Rotate the tree from the current nodes parent
+super + o
+	bspc node @parent --rotate 90
+
+# Toggle fullscreen window
+super + f
+    bspc node focused.tiled -t fullscreen || bspc node focused.fullscreen -t tiled
+
+# Toggle floating window
+super + shift + f
+    bspc node focused.tiled -t floating || bspc node focused.floating -t tiled
+
+# alternate between the tiled and monocle layout
+super + m
+	bspc desktop -l next
+
+#
+# preselect
+#
+
+# preselect the direction
+super + ctrl + {h,j,k,l}
+	bspc node -p {west,south,north,east}
+
+# preselect the ratio
+super + ctrl + {1-9}
+	bspc node -o 0.{1-9}
+
+# cancel the preselection for the focused node
+super + ctrl + space
+	bspc node -p cancel

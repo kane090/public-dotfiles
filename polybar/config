@@ -1,0 +1,179 @@
+;==========================================================
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/polybar/polybar
+;
+;   The README contains a lot of information
+;
+;==========================================================
+
+[colors]
+background = #212121
+highlight = #3b3b3b
+white = #fff
+red = #ff0000
+orange = #ff7c2b
+yellow = #edff29
+green = #00b339
+blue = #00e5ff
+purple = #dd45ff
+
+[colors_new]
+transparent = #00
+black = #170103
+dark-turquoise = #1E3A43
+weird-green = #266E5D
+cyan = #04A792
+light-yellow = #F4BE54
+orange = #FF9930
+red-orange = #DA561A
+
+
+[bar/top]
+background = ${colors.background}
+
+bottom = false
+fixed-center = true
+
+height = 30
+
+padding = 1
+module-margin = 1
+
+font-0 = NotoMono Nerd Font:style=Regular:size=11;1
+
+modules-left = bspwm spotify
+modules-center = xwindow
+modules-right = pulseaudio updates-pacman-aurhelper xkeyboard date
+
+wm-name = bspwm
+
+tray-position = right
+tray-padding = 2
+
+wm-restack = bspwm
+enable-ipc = true
+
+scroll-up = bspwm.prev
+scroll-down = bspwm.next
+
+[module/xwindow]
+type = internal/xwindow
+
+format = <label>
+format-foreground = ${colors.orange}
+
+label = %title:0:30:...%
+
+[module/bspwm]
+type = internal/bspwm
+
+label-focused = %index%
+label-focused-background = ${colors.highlight}
+label-focused-foreground = ${colors.blue}
+label-focused-padding = 2
+
+label-occupied = %index%
+label-occupied-padding = 2
+
+label-urgent = %index%
+label-urgent-background = ${colors.red}
+label-urgent-padding = 2
+
+label-empty = %index%
+label-empty-foreground = #55
+label-empty-padding = 2
+
+; Separator in between workspaces
+label-separator = |
+
+[module/updates-pacman-aurhelper]
+type = custom/script
+exec = ~/.config/polybar/updates-pacman-aurhelper.sh
+interval = 300
+format = ﮮ <label>
+format-foreground = ${colors.blue}
+
+[module/spotify]
+type = custom/script
+interval = 1
+format-prefix = "  "
+format-prefix-foreground = ${colors.green}
+format = <label>
+label-foreground = ${colors.green}
+exec = python ~/.config/polybar/spotify_status.py -f '{artist}: {song} - {album}' -t 35
+
+;control players (optional)
+click-left = playerctl --player=spotify play-pause 
+click-right = playerctl --player=spotify next 
+click-middle = playerctl --player=spotify previous 
+
+[module/date]
+type = internal/date
+interval = 1
+date = " %a %b %d %Y"
+time = "%H:%M:%S"
+label = %date% %time%
+label-foreground = ${colors.purple}
+
+[module/pulseaudio]
+type = internal/pulseaudio
+
+; Use PA_VOLUME_UI_MAX (~153%) if true, or PA_VOLUME_NORM (100%) if false
+; Default: true
+use-ui-max = false
+
+; Interval for volume increase/decrease (in percent points)
+; Default: 5
+interval = 5
+
+; Available tags:
+;   <label-volume> (default)
+;   <ramp-volume>
+;   <bar-volume>
+format-volume = <ramp-volume> <label-volume>
+format-volume-foreground = ${colors.yellow}
+
+; Available tokens:
+;   %percentage% (default)
+;   %decibels%
+label-muted = ﱝ Muted
+label-muted-foreground = #666
+
+; Only applies if <ramp-volume> is used
+ramp-volume-0 = 奄
+ramp-volume-1 = 
+ramp-volume-2 = 墳
+
+; Right and Middle click
+click-right = pavucontrol
+; click-middle = 
+
+[module/xkeyboard]
+type = internal/xkeyboard
+
+; Available tags:
+;   <label-layout> (default)
+;   <label-indicator> (default)
+format =   <label-layout>
+format-spacing = 0
+format-foreground = ${colors.red}
+
+; Available tokens:
+;   %layout%
+;   %name%
+;   %number%
+;   %icon%
+;   %variant% (unreleased)
+; Default: %layout%
+label-layout = %layout%
+label-layout-foreground = ${colors.red}
