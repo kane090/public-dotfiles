@@ -1,0 +1,2 @@
+ATTRS{idVendor}=="0d8c", ATTRS{idProduct}=="0014", ACTION=="add", RUN+="/usr/local/bin/mic-wrapper.sh"
+ATTRS{idVendor}=="0d8c", ATTRS{idProduct}=="0014", ACTION=="remove", RUN+="/usr/local/bin/mic-wrapper.sh"
